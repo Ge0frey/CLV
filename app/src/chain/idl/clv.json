@@ -1,0 +1,1122 @@
+{
+  "address": "734ZWmPmAMGSjCshLCJQRpPNiaWBQsdaZDkvP3MAGmLz",
+  "metadata": {
+    "name": "clv",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "initialize_config",
+      "discriminator": [
+        208,
+        127,
+        21,
+        1,
+        194,
+        190,
+        196,
+        70
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "open_prediction",
+      "discriminator": [
+        133,
+        18,
+        105,
+        142,
+        96,
+        107,
+        224,
+        203
+      ],
+      "accounts": [
+        {
+          "name": "predictor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "prediction",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "predictor"
+              },
+              {
+                "kind": "arg",
+                "path": "id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "daily_odds_merkle_roots"
+        },
+        {
+          "name": "txoracle_program",
+          "address": "6pW64gN1s2uqjHkn1unFeEjAwJkPGHoppGvS715wyP2J"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "u64"
+        },
+        {
+          "name": "fixture_id",
+          "type": "i64"
+        },
+        {
+          "name": "market",
+          "type": {
+            "defined": {
+              "name": "MarketKind"
+            }
+          }
+        },
+        {
+          "name": "selection",
+          "type": "u8"
+        },
+        {
+          "name": "line_x10",
+          "type": "i16"
+        },
+        {
+          "name": "price_index",
+          "type": "u8"
+        },
+        {
+          "name": "entry_ts",
+          "type": "i64"
+        },
+        {
+          "name": "odds",
+          "type": {
+            "defined": {
+              "name": "Odds"
+            }
+          }
+        },
+        {
+          "name": "summary",
+          "type": {
+            "defined": {
+              "name": "OddsBatchSummary"
+            }
+          }
+        },
+        {
+          "name": "sub_tree_proof",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "ProofNode"
+              }
+            }
+          }
+        },
+        {
+          "name": "main_tree_proof",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "ProofNode"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle_close",
+      "discriminator": [
+        151,
+        229,
+        199,
+        24,
+        177,
+        153,
+        171,
+        49
+      ],
+      "accounts": [
+        {
+          "name": "settler",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "prediction",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "prediction.predictor",
+                "account": "Prediction"
+              },
+              {
+                "kind": "account",
+                "path": "prediction.id",
+                "account": "Prediction"
+              }
+            ]
+          }
+        },
+        {
+          "name": "daily_odds_merkle_roots"
+        },
+        {
+          "name": "txoracle_program",
+          "address": "6pW64gN1s2uqjHkn1unFeEjAwJkPGHoppGvS715wyP2J"
+        }
+      ],
+      "args": [
+        {
+          "name": "close_ts",
+          "type": "i64"
+        },
+        {
+          "name": "price_index",
+          "type": "u8"
+        },
+        {
+          "name": "odds",
+          "type": {
+            "defined": {
+              "name": "Odds"
+            }
+          }
+        },
+        {
+          "name": "summary",
+          "type": {
+            "defined": {
+              "name": "OddsBatchSummary"
+            }
+          }
+        },
+        {
+          "name": "sub_tree_proof",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "ProofNode"
+              }
+            }
+          }
+        },
+        {
+          "name": "main_tree_proof",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "ProofNode"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "settle_outcome",
+      "discriminator": [
+        204,
+        183,
+        148,
+        170,
+        112,
+        151,
+        178,
+        121
+      ],
+      "accounts": [
+        {
+          "name": "settler",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "prediction",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "prediction.predictor",
+                "account": "Prediction"
+              },
+              {
+                "kind": "account",
+                "path": "prediction.id",
+                "account": "Prediction"
+              }
+            ]
+          }
+        },
+        {
+          "name": "daily_scores_merkle_roots"
+        },
+        {
+          "name": "txoracle_program",
+          "address": "6pW64gN1s2uqjHkn1unFeEjAwJkPGHoppGvS715wyP2J"
+        }
+      ],
+      "args": [
+        {
+          "name": "ts",
+          "type": "i64"
+        },
+        {
+          "name": "fixture_summary",
+          "type": {
+            "defined": {
+              "name": "ScoresBatchSummary"
+            }
+          }
+        },
+        {
+          "name": "fixture_proof",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "ProofNode"
+              }
+            }
+          }
+        },
+        {
+          "name": "main_tree_proof",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "ProofNode"
+              }
+            }
+          }
+        },
+        {
+          "name": "stat_a",
+          "type": {
+            "defined": {
+              "name": "StatTerm"
+            }
+          }
+        },
+        {
+          "name": "stat_b",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "StatTerm"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "void_prediction",
+      "discriminator": [
+        178,
+        11,
+        223,
+        122,
+        135,
+        194,
+        16,
+        235
+      ],
+      "accounts": [
+        {
+          "name": "predictor",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "prediction"
+          ]
+        },
+        {
+          "name": "prediction",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  101,
+                  100,
+                  105,
+                  99,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "predictor"
+              },
+              {
+                "kind": "account",
+                "path": "prediction.id",
+                "account": "Prediction"
+              }
+            ]
+          }
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "discriminator": [
+        155,
+        12,
+        170,
+        224,
+        30,
+        250,
+        204,
+        130
+      ]
+    },
+    {
+      "name": "Prediction",
+      "discriminator": [
+        98,
+        127,
+        141,
+        187,
+        218,
+        33,
+        8,
+        14
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "PredictionClosed",
+      "discriminator": [
+        166,
+        86,
+        249,
+        29,
+        59,
+        215,
+        25,
+        26
+      ]
+    },
+    {
+      "name": "PredictionOpened",
+      "discriminator": [
+        16,
+        202,
+        75,
+        82,
+        218,
+        107,
+        148,
+        47
+      ]
+    },
+    {
+      "name": "PredictionSettled",
+      "discriminator": [
+        8,
+        117,
+        33,
+        63,
+        201,
+        197,
+        58,
+        208
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "OddsProofRejected",
+      "msg": "Odds proof rejected by txoracle"
+    },
+    {
+      "code": 6001,
+      "name": "StatProofRejected",
+      "msg": "Stat proof rejected by txoracle"
+    },
+    {
+      "code": 6002,
+      "name": "FixtureMismatch",
+      "msg": "Odds record fixture does not match prediction"
+    },
+    {
+      "code": 6003,
+      "name": "TimestampMismatch",
+      "msg": "Record timestamp does not match argument"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidMarket",
+      "msg": "Invalid market kind"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidSelection",
+      "msg": "Invalid selection for market"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidPriceIndex",
+      "msg": "Invalid price index"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidPrice",
+      "msg": "Price must be positive"
+    },
+    {
+      "code": 6008,
+      "name": "StatKeyMismatch",
+      "msg": "Stat key does not match prediction terms"
+    },
+    {
+      "code": 6009,
+      "name": "MissingSecondStat",
+      "msg": "Second stat required for this market"
+    },
+    {
+      "code": 6010,
+      "name": "BadState",
+      "msg": "Prediction is not in the required state"
+    },
+    {
+      "code": 6011,
+      "name": "Overflow",
+      "msg": "Arithmetic overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "txoracle_program",
+            "type": "pubkey"
+          },
+          {
+            "name": "prediction_count",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketKind",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Result1x2"
+          },
+          {
+            "name": "TotalsOu"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Odds",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fixture_id",
+            "type": "i64"
+          },
+          {
+            "name": "message_id",
+            "type": "string"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          },
+          {
+            "name": "bookmaker",
+            "type": "string"
+          },
+          {
+            "name": "bookmaker_id",
+            "type": "i32"
+          },
+          {
+            "name": "super_odds_type",
+            "type": "string"
+          },
+          {
+            "name": "game_state",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "in_running",
+            "type": "bool"
+          },
+          {
+            "name": "market_parameters",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "market_period",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "price_names",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "prices",
+            "type": {
+              "vec": "i32"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OddsBatchSummary",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fixture_id",
+            "type": "i64"
+          },
+          {
+            "name": "update_stats",
+            "type": {
+              "defined": {
+                "name": "OddsUpdateStats"
+              }
+            }
+          },
+          {
+            "name": "odds_sub_tree_root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "OddsUpdateStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "update_count",
+            "type": "u32"
+          },
+          {
+            "name": "min_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "max_timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "EntryProven"
+          },
+          {
+            "name": "Closed"
+          },
+          {
+            "name": "Settled"
+          },
+          {
+            "name": "Void"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Prediction",
+      "docs": [
+        "A single CLV prediction. Entry/close implied probabilities and the outcome",
+        "are all written only after a txoracle Merkle proof verifies."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "predictor",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "fixture_id",
+            "type": "i64"
+          },
+          {
+            "name": "market",
+            "type": {
+              "defined": {
+                "name": "MarketKind"
+              }
+            }
+          },
+          {
+            "name": "selection",
+            "type": "u8"
+          },
+          {
+            "name": "line_x10",
+            "type": "i16"
+          },
+          {
+            "name": "stat_a_key",
+            "type": "u32"
+          },
+          {
+            "name": "stat_b_key",
+            "type": "u32"
+          },
+          {
+            "name": "op_add",
+            "type": "bool"
+          },
+          {
+            "name": "comparison",
+            "type": "u8"
+          },
+          {
+            "name": "threshold",
+            "type": "i32"
+          },
+          {
+            "name": "entry_ts",
+            "type": "i64"
+          },
+          {
+            "name": "entry_prob_bps",
+            "type": "u32"
+          },
+          {
+            "name": "close_ts",
+            "type": "i64"
+          },
+          {
+            "name": "close_prob_bps",
+            "type": "u32"
+          },
+          {
+            "name": "clv_bps",
+            "type": "i32"
+          },
+          {
+            "name": "outcome_win",
+            "type": "bool"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "PredStatus"
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "settled_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredictionClosed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "predictor",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "close_prob_bps",
+            "type": "u32"
+          },
+          {
+            "name": "clv_bps",
+            "type": "i32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredictionOpened",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "predictor",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "fixture_id",
+            "type": "i64"
+          },
+          {
+            "name": "entry_prob_bps",
+            "type": "u32"
+          },
+          {
+            "name": "entry_ts",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PredictionSettled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "predictor",
+            "type": "pubkey"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "outcome_win",
+            "type": "bool"
+          },
+          {
+            "name": "clv_bps",
+            "type": "i32"
+          },
+          {
+            "name": "entry_prob_bps",
+            "type": "u32"
+          },
+          {
+            "name": "close_prob_bps",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofNode",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "is_right_sibling",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ScoreStat",
+      "docs": [
+        "The on-chain representation of a single, provable key-value statistic.",
+        "This is the leaf of the inner-most Merkle tree."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "type": "u32"
+          },
+          {
+            "name": "value",
+            "type": "i32"
+          },
+          {
+            "name": "period",
+            "type": "i32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ScoresBatchSummary",
+      "docs": [
+        "The summary for a single fixture's scores events within a 5-minute batch.",
+        "This contains the root of the sub-tree of all events for that fixture."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "fixture_id",
+            "type": "i64"
+          },
+          {
+            "name": "update_stats",
+            "type": {
+              "defined": {
+                "name": "ScoresUpdateStats"
+              }
+            }
+          },
+          {
+            "name": "events_sub_tree_root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ScoresUpdateStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "update_count",
+            "type": "i32"
+          },
+          {
+            "name": "min_timestamp",
+            "type": "i64"
+          },
+          {
+            "name": "max_timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StatTerm",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stat_to_prove",
+            "type": {
+              "defined": {
+                "name": "ScoreStat"
+              }
+            }
+          },
+          {
+            "name": "event_stat_root",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "stat_proof",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "ProofNode"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "constants": [
+    {
+      "name": "CONFIG_SEED",
+      "type": "bytes",
+      "value": "[99, 111, 110, 102, 105, 103]"
+    },
+    {
+      "name": "PREDICTION_SEED",
+      "type": "bytes",
+      "value": "[112, 114, 101, 100, 105, 99, 116, 105, 111, 110]"
+    }
+  ]
+}
