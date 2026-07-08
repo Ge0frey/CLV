@@ -5,6 +5,7 @@ import { pickOdds, finalResult, MARKETS, probPct } from '../lib/domain'
 import { verifyOdds, verifyStat } from '../chain/actions'
 import { Badge, Shield } from './ui'
 import Icon from './Icon'
+import Flag from './Flag'
 import { CountUp } from './motion'
 
 const trunc = (arr: number[]) => arr ? '0x' + Buffer.from(arr.slice(0, 6)).toString('hex') + '…' : ''
@@ -70,8 +71,17 @@ export default function VerifyModal({ pred, fixture, onClose }: { pred: any; fix
               <Icon icon="lucide:x" className="text-2xl" />
             </button>
           </div>
-          <p className="text-xs text-white/80 mt-1">
-            {fixture ? `${fixture.Participant1} vs ${fixture.Participant2}` : `Fixture ${fixtureId}`} · {['Home win', 'Draw', 'Away win'][pred.selection]} · re-proved live on Solana
+          <p className="text-xs text-white/80 mt-1 flex flex-wrap items-center gap-1.5">
+            {fixture ? (
+              <span className="inline-flex items-center gap-1.5">
+                <Flag name={fixture.Participant1} className="text-sm" /> {fixture.Participant1}
+                <span className="text-white/50">vs</span>
+                <Flag name={fixture.Participant2} className="text-sm" /> {fixture.Participant2}
+              </span>
+            ) : (
+              <span>Fixture {fixtureId}</span>
+            )}
+            <span>· {['Home win', 'Draw', 'Away win'][pred.selection]} · re-proved live on Solana</span>
           </p>
         </div>
 

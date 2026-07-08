@@ -8,6 +8,7 @@ import { DEMO_FIXTURE_META } from '../config'
 import { pickOdds } from '../lib/domain'
 import { Card, Button, Badge, CLV } from '../components/ui'
 import Icon from '../components/Icon'
+import Flag from '../components/Flag'
 import { CountUp } from '../components/motion'
 import { Sparkline, Meter } from '../components/graphics'
 import VerifyModal from '../components/VerifyModal'
@@ -128,7 +129,15 @@ export default function Portfolio() {
             <Card key={p.pubkey} className="p-5 reveal" style={{ animationDelay: `${i * 55}ms` }}>
               <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
                 <div className="min-w-[200px]">
-                  <div className="font-bold text-[#1E3A5F]">{fx ? `${fx.Participant1} vs ${fx.Participant2}` : `Fixture ${p.fixtureId}`}</div>
+                  <div className="font-bold text-[#1E3A5F] flex items-center gap-2">
+                    {fx ? (
+                      <>
+                        <Flag name={fx.Participant1} className="text-base" /> {fx.Participant1}
+                        <span className="text-slate-300 text-xs font-semibold">vs</span>
+                        <Flag name={fx.Participant2} className="text-base" /> {fx.Participant2}
+                      </>
+                    ) : `Fixture ${p.fixtureId}`}
+                  </div>
                   <div className="text-xs text-slate-400 mt-0.5">Selection · <span className="text-[#FF6B35] font-semibold">{MARKET_LABEL[p.selection]}</span></div>
                 </div>
                 <Stat label="Entry" value={`${(p.entryProbBps / 100).toFixed(2)}%`} />

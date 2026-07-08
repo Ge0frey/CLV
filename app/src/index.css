@@ -22,12 +22,16 @@ body {
   font-feature-settings: "tnum" 1;
   -webkit-font-smoothing: antialiased;
   background-color: var(--cream);
+  /* Page-wide blueprint grid (navy on light). Fixed origin so dark-section
+     overlays can share it seamlessly. Shows through every transparent section. */
   background-image:
     radial-gradient(60% 45% at 12% 4%, rgba(255, 107, 53, 0.07), transparent 70%),
     radial-gradient(50% 40% at 92% 0%, rgba(30, 58, 95, 0.06), transparent 70%),
-    radial-gradient(rgba(30, 58, 95, 0.05) 1px, transparent 1px);
-  background-size: auto, auto, 22px 22px;
-  background-attachment: fixed;
+    linear-gradient(rgba(30, 58, 95, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 58, 95, 0.07) 1px, transparent 1px);
+  background-size: auto, auto, 46px 46px, 46px 46px;
+  /* glows stay put; the grid scrolls with the page (renders everywhere, iOS-safe) */
+  background-attachment: fixed, fixed, scroll, scroll;
 }
 
 .font-display { font-family: 'Archivo', 'Satoshi', sans-serif; letter-spacing: -0.02em; }
@@ -116,6 +120,65 @@ body {
 
 /* ── Meter fill ── */
 .meter-fill { transition: width 1s var(--ease-out); }
+
+/* ══ ELECTRIC / WORLD CUP LAYER ═══════════════════════════════════════════ */
+:root { --navy-night: #0C1B30; --amber: #FFA83D; }
+
+/* Stadium-light glow blobs (blurred, slowly drifting) */
+.glow-blob { position: absolute; border-radius: 9999px; filter: blur(70px); will-change: transform; pointer-events: none; }
+@keyframes float-a { 0%, 100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(5%, 7%, 0) scale(1.08); } }
+@keyframes float-b { 0%, 100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-6%, 5%, 0) scale(1.1); } }
+.float-a { animation: float-a 11s ease-in-out infinite; }
+.float-b { animation: float-b 13s ease-in-out infinite; }
+
+/* Pitch perspective grid, fading upward */
+.pitch-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.09) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 72%);
+  mask-image: linear-gradient(to top, #000 0%, transparent 72%);
+}
+
+/* White blueprint grid for dark sections. Same 46px cell + left origin as the
+   page grid, so the vertical lines stay colinear across every section boundary
+   — the grid reads continuous, only its colour flips light↔navy. */
+.grid-overlay {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* Solid accent for highlighted words (previously an animated gradient) */
+.text-electric { color: var(--accent); }
+.accent-gradient-2 { background: linear-gradient(120deg, var(--accent) 0%, var(--amber) 100%); }
+
+/* Pulsing CTA glow */
+@keyframes cta-glow { 0%, 100% { box-shadow: 0 12px 30px -8px rgba(255,107,53,0.5); } 50% { box-shadow: 0 18px 48px -6px rgba(255,107,53,0.85); } }
+.cta-glow { animation: cta-glow 2.6s ease-in-out infinite; }
+
+/* Big kinetic broadcast marquee */
+@keyframes marquee-xl { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-xl { display: inline-flex; white-space: nowrap; animation: marquee-xl var(--mq, 24s) linear infinite; }
+.marquee-xl-rev { animation-direction: reverse; }
+.marquee-band:hover .marquee-xl { animation-play-state: paused; }
+.text-outline { color: transparent; -webkit-text-stroke: 1.6px rgba(30,58,95,0.35); }
+
+/* Floating score chips */
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.bob { animation: bob 4.5s ease-in-out infinite; }
+.bob-2 { animation: bob 5.5s ease-in-out infinite; animation-delay: .8s; }
+
+/* Confetti burst */
+@keyframes confetti { 0% { transform: translateY(-8px) rotate(0); opacity: 0; } 12% { opacity: 1; } 100% { transform: translateY(130px) rotate(420deg); opacity: 0; } }
+.confetti-piece { position: absolute; top: 0; width: 8px; height: 8px; border-radius: 2px; animation: confetti 1.7s var(--ease-out) forwards; will-change: transform, opacity; }
+
+/* Card hover with coral lift */
+.lift { transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out); }
+.lift:hover { transform: translateY(-6px); box-shadow: 0 2px 8px rgba(30,58,95,0.05), 0 34px 60px -22px rgba(255,107,53,0.35); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::after, *::before { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }

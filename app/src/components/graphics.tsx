@@ -1,27 +1,38 @@
 import { DEMO_FIXTURE_META } from '../config'
 import Icon from './Icon'
+import Flag from './Flag'
 
 /**
  * The brand motif: a consensus line that draws itself, with an entry marker
  * (coral) and a closing marker (navy). Purely decorative — echoes the product.
  */
-export function LineMotif({ className = '' }: { className?: string }) {
+export function LineMotif({ className = '', dark = false }: { className?: string; dark?: boolean }) {
   // A single smooth path; length approximated for the draw animation.
   const d = 'M0,150 C60,140 110,168 170,120 S300,60 360,96 T520,44'
+  const line = dark ? '#FF7A45' : '#1E3A5F'
+  const fillTop = dark ? '#FF6B35' : '#1E3A5F'
+  const entryRef = dark ? '#FFFFFF' : '#FF6B35'
+  const closeMarker = dark ? '#FFFFFF' : '#1E3A5F'
+  const uid = dark ? 'lm-fill-d' : 'lm-fill'
   return (
     <svg viewBox="0 0 520 200" className={className} preserveAspectRatio="none" aria-hidden>
       <defs>
-        <linearGradient id="lm-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1E3A5F" stopOpacity="0.14" />
-          <stop offset="100%" stopColor="#1E3A5F" stopOpacity="0" />
+        <linearGradient id={uid} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={fillTop} stopOpacity={dark ? '0.28' : '0.14'} />
+          <stop offset="100%" stopColor={fillTop} stopOpacity="0" />
         </linearGradient>
+        {dark && (
+          <filter id="lm-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#FF6B35" floodOpacity="0.9" />
+          </filter>
+        )}
       </defs>
-      <path d={`${d} L520,200 L0,200 Z`} fill="url(#lm-fill)" opacity="0.9" />
+      <path d={`${d} L520,200 L0,200 Z`} fill={`url(#${uid})`} opacity="0.9" />
       {/* entry reference line */}
-      <line x1="0" y1="96" x2="520" y2="96" stroke="#FF6B35" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.5" />
-      <path d={d} fill="none" stroke="#1E3A5F" strokeWidth="3.5" strokeLinecap="round" className="line-draw" style={{ '--len': 760 } as any} />
+      <line x1="0" y1="96" x2="520" y2="96" stroke={entryRef} strokeWidth="1.5" strokeDasharray="5 5" opacity={dark ? '0.4' : '0.5'} />
+      <path d={d} fill="none" stroke={line} strokeWidth="3.5" strokeLinecap="round" className="line-draw" filter={dark ? 'url(#lm-glow)' : undefined} style={{ '--len': 760 } as any} />
       <circle cx="360" cy="96" r="6" fill="#FF6B35" className="marker-pop" style={{ animationDelay: '1.5s' }} />
-      <circle cx="520" cy="44" r="6" fill="#1E3A5F" className="marker-pop" style={{ animationDelay: '2s' }} />
+      <circle cx="520" cy="44" r="6" fill={closeMarker} className="marker-pop" style={{ animationDelay: '2s' }} />
     </svg>
   )
 }
@@ -71,8 +82,8 @@ export function Meter({ bps, max = 500 }: { bps: number; max?: number }) {
 
 /** Scrolling proof ticker — real demo fixtures + the primitives that prove them. */
 export function ProofTicker() {
-  const items = [
-    ...DEMO_FIXTURE_META.map((f: any) => ({ label: `${f.Participant1} vs ${f.Participant2}`, tag: 'entry · close · result proven' })),
+  const items: any[] = [
+    ...DEMO_FIXTURE_META.map((f: any) => ({ p1: f.Participant1, p2: f.Participant2, label: `${f.Participant1} vs ${f.Participant2}`, tag: 'entry · close · result proven' })),
     { label: 'validate_odds', tag: 'consensus line → on-chain' },
     { label: 'validate_stat', tag: 'final score → on-chain' },
     { label: 'Closing Line Value', tag: 'the pro measure of edge' },
@@ -83,7 +94,14 @@ export function ProofTicker() {
       <div className="marquee-track gap-3">
         {row.map((it, i) => (
           <span key={i} className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1.5 shadow-sm text-sm">
-            <Icon icon="lucide:shield-check" className="text-[#FF6B35]" />
+            {it.p1 ? (
+              <span className="inline-flex items-center -space-x-1">
+                <Flag name={it.p1} className="text-base ring-1 ring-white rounded-full" />
+                <Flag name={it.p2} className="text-base ring-1 ring-white rounded-full" />
+              </span>
+            ) : (
+              <Icon icon="lucide:shield-check" className="text-[#FF6B35]" />
+            )}
             <span className="font-bold text-[#1E3A5F]">{it.label}</span>
             <span className="text-slate-400 text-xs">{it.tag}</span>
           </span>

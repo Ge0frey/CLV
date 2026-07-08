@@ -4,6 +4,7 @@ import { txline } from '../lib/txline'
 import { CFG, DEMO_FIXTURE_META } from '../config'
 import { Card, Badge } from '../components/ui'
 import Icon from '../components/Icon'
+import Flag from '../components/Flag'
 
 function fmt(ts: number) { return new Date(ts).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) }
 
@@ -22,11 +23,17 @@ function FixtureCard({ f, i }: { f: any; i: number }) {
           )}
         </div>
         <div className="space-y-1 mb-6">
-          <div className="text-2xl font-display font-extrabold text-[#1E3A5F] leading-tight">{f.Participant1}</div>
-          <div className="flex items-center gap-2 text-slate-300">
+          <div className="flex items-center gap-2.5">
+            <Flag name={f.Participant1} className="text-2xl" />
+            <span className="text-2xl font-display font-extrabold text-[#1E3A5F] leading-tight">{f.Participant1}</span>
+          </div>
+          <div className="flex items-center gap-2 text-slate-300 pl-0.5">
             <span className="h-px w-4 bg-slate-200" /><span className="text-[11px] font-bold uppercase tracking-widest">vs</span>
           </div>
-          <div className="text-2xl font-display font-extrabold text-[#1E3A5F] leading-tight">{f.Participant2}</div>
+          <div className="flex items-center gap-2.5">
+            <Flag name={f.Participant2} className="text-2xl" />
+            <span className="text-2xl font-display font-extrabold text-[#1E3A5F] leading-tight">{f.Participant2}</span>
+          </div>
         </div>
         <div className="flex items-end justify-between pt-4 border-t border-slate-100">
           <div className="font-num text-xs text-slate-500 font-medium">{fmt(Number(f.StartTime))}</div>
@@ -54,10 +61,7 @@ export default function Matches() {
     <div>
       {/* Header */}
       <section className="mb-12 md:mb-16 reveal">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm text-[11px] font-bold text-slate-500 mb-6">
-          <span className="w-2 h-2 rounded-full bg-[#FF6B35] animate-pulse"></span>
-          <span className="font-num tracking-wide">TxLINE DEVNET · 2026 WORLD CUP</span>
-        </div>
+        <span className="block font-num text-[11px] font-bold tracking-wide text-slate-500 mb-6">TxLINE DEVNET · 2026 WORLD CUP</span>
         <h1 className="text-4xl md:text-5xl font-display font-extrabold text-[#1E3A5F] leading-[1.05]">
           Pick a match.
         </h1>

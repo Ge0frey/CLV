@@ -5,6 +5,7 @@ import { DEMO_FIXTURE_META } from '../config'
 import { oddsTrajectory, finalResult } from '../lib/domain'
 import { Card } from '../components/ui'
 import Icon from '../components/Icon'
+import Flag from '../components/Flag'
 import OddsChart from '../components/OddsChart'
 import Ticket from '../components/Ticket'
 
@@ -36,8 +37,16 @@ export default function MatchDetail() {
             <span className="text-[#1E3A5F] font-num normal-case tracking-normal">{fixture.Competition} · #{fixtureId}</span>
           </nav>
           <h1 className="text-4xl md:text-6xl font-display font-extrabold text-[#1E3A5F] leading-[1.03]">
-            {fixture.Participant1}<br />
-            <span className="text-slate-300 text-2xl md:text-3xl align-middle">vs</span> {fixture.Participant2}
+            <span className="inline-flex items-center gap-3">
+              <Flag name={fixture.Participant1} className="text-3xl md:text-5xl" />
+              {fixture.Participant1}
+            </span>
+            <br />
+            <span className="text-slate-300 text-2xl md:text-3xl align-middle">vs</span>{' '}
+            <span className="inline-flex items-center gap-3">
+              <Flag name={fixture.Participant2} className="text-3xl md:text-5xl" />
+              {fixture.Participant2}
+            </span>
           </h1>
         </div>
         {result ? (
